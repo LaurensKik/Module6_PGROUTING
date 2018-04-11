@@ -63,18 +63,20 @@ def create_postgis_pgrouting():
 
 
 def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data", shp_name = r"gis.osm_roads_free_1.shp", user = 'postgres', db = 'osm' ):
-	#STRINGS DO NOT WORK
-
+	#STRINGS DO WORK
+	print os.getcwd()
+	os.chdir(shp_folder)
+	print os.getcwd()
 	#string = "shp2pgsql -I \{} public.{} | psql -U {} -d {}".format(shp_locate_name, user, db)
-	string = r'shp2pgsql -I """C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data\gis.osm_roads_free_1.shp""" public.roads | psql -U postgres -d osm'
+	string = r'shp2pgsql -I "{}\\{}" public.roads | psql -U postgres -d osm'.format(os.getcwd(), shp_name)
 	print(string)
 
-	os.system(r'shp2pgsql -I "D:\TEMP\gis.osm_roads_free_1.shp" public.roads | psql -U postgres -d osm')
+	os.system(string)
 
 
 
 #create_postgres_db('osm')
-#con, meta = connect_postgres_db('osm')
-#create_postgis_pgrouting()
+con, meta = connect_postgres_db('osm')
+#reate_postgis_pgrouting()
 add_shapefile_to_postgress()
 
