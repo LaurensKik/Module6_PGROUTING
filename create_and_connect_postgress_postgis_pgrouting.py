@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
+import geoalchemy2 #Otherwise geom column is loaded wrong
 import getpass
 import os
 
@@ -45,6 +46,7 @@ def connect_postgres_db(db):
 
 
 def create_postgis_pgrouting():
+	#creates the necessary spatial plugins such as postgis and pgrouting within a database
 	con.execute('CREATE EXTENSION postgis')
 	con.execute('CREATE EXTENSION hstore')
 	con.execute('CREATE EXTENSION fuzzystrmatch')
@@ -63,20 +65,40 @@ def create_postgis_pgrouting():
 
 
 def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data", shp_name = r"gis.osm_roads_free_1.shp", user = 'postgres', db = 'osm' ):
-	#STRINGS DO WORK
-	print os.getcwd()
+	
+	#set working directory to shp folder
 	os.chdir(shp_folder)
-	print os.getcwd()
-	#string = "shp2pgsql -I \{} public.{} | psql -U {} -d {}".format(shp_locate_name, user, db)
-	string = r'shp2pgsql -I "{}\\{}" public.roads | psql -U postgres -d osm'.format(os.getcwd(), shp_name)
+	
+	# create string to execute in command line (outside of python)
+	string = r'shp2pgsql -I "{}\\{}" public.roads | psql -U {} -d {}'.format(os.getcwd(), shp_name, user, db)
 	print(string)
 
+	#execute the formatted command in CMD
 	os.system(string)
 
+def query_100_result_of_table(tablename):
+	''' Requires a current connection'''
+	string = 'SELECT * FROM {} LIMIT 100'.format(tablename)
+	result = con.execute(string)
+	for r in result:
+		print(r)
 
+def print_table_columns(tablename):
+	''' Requires a current connection'''
+	result = con.execute('select column_name from information_schema.columns where table_name=\'{}\''.format(tablename))
+	for r in result:
+		print(r)
 
+def create_and_check_topology(tablename):
+	''' Requires a current connection, more info http://docs.pgrouting.org/2.3/en/doc/src/tutorial/tutorial.html'''
+
+	#create topology
+	con.execute('select pgr_createTopology(\'{}\', 0.000001)'.format(tablename))
+	#con.execute('select pgr_analyzegraph(\'{}\', 0.000001)'.format(tablename))
+	#con.execute('select pgr_analyzeoneway(\'{}\',  s_in_rules, s_out_rules, t_in_rules, t_out_rules, direction)'.format(tablename))
 #create_postgres_db('osm')
 con, meta = connect_postgres_db('osm')
-#reate_postgis_pgrouting()
-add_shapefile_to_postgress()
-
+#create_postgis_pgrouting()
+query_100_result_of_table('roads')
+create_and_check_topology('roads')
+print_table_columns('roads')
