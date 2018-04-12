@@ -116,13 +116,13 @@ def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
 	os.chdir(string)
 
 	string1 = r'psql -d osm -U postgres -f {}_2po_polyrel.sql'.format(prefix_name)
-	os.chdir(string1)
+	os.system(string1)
 
 	string2 = r'psql -d osm -U postgres -f {}_2po_polyway.sql'.format(prefix_name)
-	os.chdir(string2)
+	os.system(string2)
 
 	string3 = r'psql -d osm -U postgres -f {}_2po_vertex.sql'.format(prefix_name)
-	os.chdir(string3)
+	os.system(string3)
 
 #MAIN EXECUTION
 # create_postgres_db('osm')
