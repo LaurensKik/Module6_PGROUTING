@@ -3,6 +3,7 @@ from sqlalchemy import MetaData
 import geoalchemy2 #Otherwise geom column is loaded wrong
 import getpass
 import os
+import webbrowser
 
 # some interesting slides: http://www.postgis.us/presentations/postgis_install_guide_22.html#/11
 
@@ -99,14 +100,37 @@ def create_and_check_topology(tablename):
 	#con.execute('select pgr_analyzegraph(\'{}\', 0.000001)'.format(tablename))
 	#con.execute('select pgr_analyzeoneway(\'{}\',  s_in_rules, s_out_rules, t_in_rules, t_out_rules, direction)'.format(tablename))
 
+def osm2po_roads(geofabriklink = 'http://download.geofabrik.de/europe/netherlands-latest.osm.pbf', prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
 
+	#set directory to osm2po folder
+	os.chdir(osm2po_folder)
 
+	string = r'java -jar osm2po-core-5.2.43-signed.jar prefix={} {}'.format(prefix_name, geofabriklink)
+	print string
+
+	os.system(string)
+
+def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
+
+	string = r'{}\\{}'.format(osm2po_folder, prefix_name)
+	os.chdir(string)
+
+	string1 = r'psql -d osm -U postgres -f {}_2po_polyrel.sql'.format(prefix_name)
+	os.chdir(string1)
+
+	string2 = r'psql -d osm -U postgres -f {}_2po_polyway.sql'.format(prefix_name)
+	os.chdir(string2)
+
+	string3 = r'psql -d osm -U postgres -f {}_2po_vertex.sql'.format(prefix_name)
+	os.chdir(string3)
 
 #MAIN EXECUTION
-create_postgres_db('osm')
+# create_postgres_db('osm')
 con, meta = connect_postgres_db('osm')
-create_postgis_pgrouting()
-add_shapefile_to_postgress()
-query_100_result_of_table('roads')
-create_and_check_topology('roads')
-print_table_columns('roads')
+# create_postgis_pgrouting()
+# add_shapefile_to_postgress()
+# query_100_result_of_table('roads')
+# create_and_check_topology('roads')
+# print_table_columns('roads')
+# osm2po_roads()
+import_osm2po()
