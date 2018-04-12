@@ -64,7 +64,7 @@ def create_postgis_pgrouting():
 		print(r)
 
 
-def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data", shp_name = r"gis.osm_roads_free_1.shp", user = 'postgres', db = 'osm' ):
+def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data\OSM_SHAPES", shp_name = r"amsterdam_cyclepaths.shp", user = 'postgres', db = 'osm' ):
 	
 	#set working directory to shp folder
 	os.chdir(shp_folder)
@@ -85,20 +85,28 @@ def query_100_result_of_table(tablename):
 
 def print_table_columns(tablename):
 	''' Requires a current connection'''
-	result = con.execute('select column_name from information_schema.columns where table_name=\'{}\''.format(tablename))
+	result = con.execute('SELECT column_name FROM information_schema.columns WHERE table_name=\'{}\''.format(tablename))
 	for r in result:
 		print(r)
 
 def create_and_check_topology(tablename):
 	''' Requires a current connection, more info http://docs.pgrouting.org/2.3/en/doc/src/tutorial/tutorial.html'''
-
+	#LOL DEZE DOET NIETS, niet gebruiken
 	#create topology
-	con.execute('select pgr_createTopology(\'{}\', 0.000001)'.format(tablename))
+	con.execute('ALTER TABLE {} ADD COLUMN "source" integer'.format(tablename))
+	con.execute('ALTER TABLE {} ADD COLUMN "target" integer'.format(tablename))
+	con.execute('select pgr_createTopology(\'{}\', 0.000001, \'geom\', \'gid\')'.format(tablename))
 	#con.execute('select pgr_analyzegraph(\'{}\', 0.000001)'.format(tablename))
 	#con.execute('select pgr_analyzeoneway(\'{}\',  s_in_rules, s_out_rules, t_in_rules, t_out_rules, direction)'.format(tablename))
-#create_postgres_db('osm')
+
+
+
+
+#MAIN EXECUTION
+create_postgres_db('osm')
 con, meta = connect_postgres_db('osm')
-#create_postgis_pgrouting()
+create_postgis_pgrouting()
+add_shapefile_to_postgress()
 query_100_result_of_table('roads')
 create_and_check_topology('roads')
 print_table_columns('roads')
