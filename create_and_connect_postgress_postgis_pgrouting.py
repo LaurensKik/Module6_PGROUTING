@@ -136,9 +136,8 @@ con, meta = connect_postgres_db('osm')
 # create_and_check_topology('roads')
 print_table_columns('osm_nl_2po_4pgr')
 # osm2po_roads()
-<<<<<<< HEAD
 #import_osm2po()
-=======
 # import_osm2po()
 create_spatial_index()
->>>>>>> 8fd22ddeaa4a03ba3cc15d478a13bc054ffb6368
+
+
