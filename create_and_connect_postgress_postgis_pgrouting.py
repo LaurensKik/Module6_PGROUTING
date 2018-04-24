@@ -127,17 +127,20 @@ def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
 def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)'):
     con.execute('CREATE INDEX osm2po_gindx ON {} USING GIST {}'.format(tablename, geometry))
 
-#MAIN EXECUTION
-#create_postgres_db('osm')
-con, meta = connect_postgres_db('osm')
-#create_postgis_pgrouting()
-# add_shapefile_to_postgress()
-# query_100_result_of_table('roads')
-# create_and_check_topology('roads')
-print_table_columns('osm_nl_2po_4pgr')
-# osm2po_roads()
-#import_osm2po()
-# import_osm2po()
-create_spatial_index()
 
+def main():
+	#MAIN EXECUTION
+	#create_postgres_db('osm')
+	con, meta = connect_postgres_db('osm')
+	#create_postgis_pgrouting()
+	# add_shapefile_to_postgress()
+	# query_100_result_of_table('roads')
+	# create_and_check_topology('roads')
+	print_table_columns('osm_nl_2po_4pgr')
+	# osm2po_roads()
+	#import_osm2po()
+	# import_osm2po()
+	create_spatial_index()
 
+if __name__ == "__main__":
+    main()
