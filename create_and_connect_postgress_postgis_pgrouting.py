@@ -43,7 +43,7 @@ def connect_postgres_db(db):
     # We then bind the connection to MetaData()
     meta = MetaData(bind=con, reflect=True)
 
-    return con, meta
+    return con, meta #returning con keeps you connected to the database, using con.execute('sql_syntax_here') excecutes and sql command.
 
 
 def create_postgis_pgrouting():
@@ -105,7 +105,7 @@ def osm2po_roads(geofabriklink = 'http://download.geofabrik.de/europe/netherland
     #set directory to osm2po folder
     os.chdir(osm2po_folder)
 
-    string = r'java -jar osm2po-core-5.2.43-signed.jar prefix={} {}'.format(prefix_name, geofabriklink)
+    string = r'java -jar osm2po-core-5.2.43-signed.jar prefix={} {} '.format(prefix_name, geofabriklink)
     print(string)
 
     os.system(string)
@@ -128,19 +128,19 @@ def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)')
     con.execute('CREATE INDEX osm2po_gindx ON {} USING GIST {}'.format(tablename, geometry))
 
 
-def main():
+#def main():
 	#MAIN EXECUTION
-	#create_postgres_db('osm')
-	con, meta = connect_postgres_db('osm')
-	#create_postgis_pgrouting()
+#create_postgres_db('osm_nl_new')
+con, meta = connect_postgres_db('osm_nl_new')
+create_postgis_pgrouting()
 	# add_shapefile_to_postgress()
 	# query_100_result_of_table('roads')
 	# create_and_check_topology('roads')
-	print_table_columns('osm_nl_2po_4pgr')
+	#print_table_columns('osm_nl_2po_4pgr')
 	# osm2po_roads()
 	#import_osm2po()
 	# import_osm2po()
-	create_spatial_index()
+	#create_spatial_index()
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
