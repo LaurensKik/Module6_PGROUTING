@@ -138,21 +138,21 @@ def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_
 	string1 = r'osmconvert64-0.8.8p --drop-author --drop-version --out-osm {}{} > {}.osm'.format(file_folder, file_name, out_name)
 	os.system(string1)
 
-def osm2pgrouting(osm2pgrouting_folder = r'C:\Program Files\PostgreSQL\10\bin', input_file = r'osm_nl.osm', dbname = r'osm_nl_new', username = r'postgres'):
+def osm2pgrouting(osm2pgrouting_folder = r'C:\Program Files\PostgreSQL\10\bin', input_file = r'osm_nl.osm', dbname = r'osm_nl_new', username = r'postgres', password=HIERPASSWORD):
 	#trying to get a better organised road network in there
-	string = r'{}'.format(osm2pgrouting_folder_folder)
+	string = r'{}'.format(osm2pgrouting_folder)
 	os.chdir(string)
 
-	string1 = r'osm2pgrouting --f {} --conf mapconfig.xml --dbname {} --username {} --clean --addnodes --tags --attributes'.format(input_file, dbname, username)
-	os.sytem(string1)
+	string1 = r'osm2pgrouting --f {} --conf mapconfig.xml --dbname {} --username {} --password {}--clean --addnodes --tags --attributes'.format(input_file, dbname, username, password)
+	os.system(string1)
 	
 
 
 #def main():
 	#MAIN EXECUTION
 #create_postgres_db('osm_nl_new')
-con, meta = connect_postgres_db('osm_nl_new')
-create_postgis_pgrouting()
+#con, meta = connect_postgres_db('osm_nl_new')
+#create_postgis_pgrouting()
 	# add_shapefile_to_postgress()
 	# query_100_result_of_table('roads')
 	# create_and_check_topology('roads')
@@ -161,6 +161,7 @@ create_postgis_pgrouting()
 	#import_osm2po()
 	# import_osm2po()
 	#create_spatial_index()
+osm2pgrouting()
 
 #if __name__ == "__main__":
 #    main()
