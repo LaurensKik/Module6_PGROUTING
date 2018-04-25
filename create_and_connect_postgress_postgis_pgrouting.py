@@ -128,6 +128,26 @@ def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)')
     con.execute('CREATE INDEX osm2po_gindx ON {} USING GIST {}'.format(tablename, geometry))
 
 
+
+
+def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_folder = r'D:\Downloads\\', file_name = r'netherlands-latest.osm.pbf', out_name = r'osm_nl'):
+	#trying to get a better organised road network in there
+	string = r'{}'.format(osmconvert_folder)
+	os.chdir(string)
+
+	string1 = r'osmconvert64-0.8.8p --drop-author --drop-version --out-osm {}{} > {}.osm'.format(file_folder, file_name, out_name)
+	os.system(string1)
+
+def osm2pgrouting(osm2pgrouting_folder = r'C:\Program Files\PostgreSQL\10\bin', input_file = r'osm_nl.osm', dbname = r'osm_nl_new', username = r'postgres'):
+	#trying to get a better organised road network in there
+	string = r'{}'.format(osm2pgrouting_folder_folder)
+	os.chdir(string)
+
+	string1 = r'osm2pgrouting --f {} --conf mapconfig.xml --dbname {} --username {} --clean --addnodes --tags --attributes'.format(input_file, dbname, username)
+	os.sytem(string1)
+	
+
+
 #def main():
 	#MAIN EXECUTION
 #create_postgres_db('osm_nl_new')
