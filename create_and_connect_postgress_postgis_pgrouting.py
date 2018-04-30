@@ -145,6 +145,12 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
 		print x
 
 
+def create_a_star_route():
+	string = r"CREATE TABLE route AS SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM osm_nl_2po_4pgr', 2, 12, heuristic:= 5) a LEFT join osm_nl_2po_4pgr b ON (a.edge = b.id);"
+	a_star = con.execute(string)#.fetchall
+	for x in a_star:
+		print x
+
 
 def create_ped_car_cycle_view():
 	''' This function creates three seperate views for cars, cyclist and pedestrians respectively. More information on the values can be found  at :
@@ -190,7 +196,7 @@ def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_
 	string1 = r'osmconvert64-0.8.8p --drop-author --drop-version --out-osm {}{} > {}.osm'.format(file_folder, file_name, out_name)
 	os.system(string1)
 
-def osm2pgrouting(osm2pgrouting_folder = r'C:\\Program Files\PostgreSQL\10\bin', file_folder = r'D:\TEMP', input_file = r'roads_nl.osm', dbname = r'osm_nl_new', username = r'postgres', password=r'arolla'):
+def osm2pgrouting(osm2pgrouting_folder = r'C:\\Program Files\PostgreSQL\10\bin', file_folder = r'D:\TEMP', input_file = r'roads_nl.osm', dbname = r'osm_nl_new', username = r'postgres', password=r'):
 	#trying to get a better organised road network in there
 	string = r'{}'.format(osm2pgrouting_folder)
 	os.chdir(string)
@@ -216,7 +222,8 @@ con, meta = connect_postgres_db('osm')
 	# import_osm2po()
 # create_spatial_index()
 #create_ped_car_cycle_view()
-test_a_star()
+# test_a_star()
+create_a_star_route()
 	#
 #if __name__ == "__main__":
 #    main()
