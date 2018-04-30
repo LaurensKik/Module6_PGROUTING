@@ -38,7 +38,7 @@ BEGIN
 
 	-- Shortest path query (TODO: limit extent by BBOX) 
         seq := 0;
-        sql := 'SELECT id, geom_way, name, cost, source, target, 
+        sql := 'SELECT id, geom_way, osm_name, cost, source, target, 
 				ST_Reverse(geom_way) AS flip_geom FROM ' ||
                         'pgr_astar(''SELECT gid as id, source::int, target::int, '
                                         || 'cost::double precision AS cost, reverse_cost::double precision AS reverse_cost FROM '
@@ -69,7 +69,7 @@ BEGIN
 		-- Return record
                 seq     := seq + 1;
                 gid     := rec.gid;
-                name    := rec.name;
+                name    := rec.osm_osm_name;
                 cost    := rec.cost;
                 geom    := rec.geom_way;
                 RETURN NEXT;

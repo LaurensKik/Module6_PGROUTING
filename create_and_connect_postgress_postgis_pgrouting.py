@@ -186,6 +186,7 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
 	string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
 	os.system(string1)
 
+	# VOOR JORIS CREATE TABLE temp_route AS SELECT * FROM pgr_fromAtoB('osm_nl_2po_4pgr', 5.0006881,52.352115,5.451616,51.4981942);
 
 
 
@@ -216,7 +217,7 @@ def osm2pgrouting(osm2pgrouting_folder = r'C:\\Program Files\PostgreSQL\10\bin',
 #def main():
 	#MAIN EXECUTION
 # create_postgres_db('osm')
-con, meta = connect_postgres_db('osm')
+# con, meta = connect_postgres_db('osm')
 # create_postgis_pgrouting()
 	# add_shapefile_to_postgress()
 # query_100_result_of_table('roads')
