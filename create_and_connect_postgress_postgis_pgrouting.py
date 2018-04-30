@@ -125,9 +125,61 @@ def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
     # os.system(string3)
 
 def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)'):
-    con.execute('CREATE INDEX osm2po_gindx ON {} USING GIST {}'.format(tablename, geometry))
+
+	# Normal index
+	con.execute('CREATE INDEX idx_osm_nl_2po_4pgr_id ON public.{}(id)'.format(tablename))
+
+	# Spatial index
+	con.execute('CREATE INDEX osm2po_gindx ON {} USING GIST {}'.format(tablename, geometry))
 
 
+def test_a_star(tablename = 'osm_nl_2po_4pgr'):
+	''' 
+	http://pgrouting.org/docs/foss4g2008/ch08.html
+	osm2po already created x1 y1 etc.
+	'''
+
+	string = r"SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM osm_nl_2po_4pgr', 2, 12, heuristic:= 5) a LEFT join osm_nl_2po_4pgr b ON (a.edge = b.id);"
+	a_star = con.execute(string)#.fetchall
+	for x in a_star:
+		print x
+
+
+
+def create_ped_car_cycle_view():
+	''' This function creates three seperate views for cars, cyclist and pedestrians respectively. More information on the values can be found  at :
+		http://vesaliusdesign.com/2016/03/osm2pos-flag-field-explained/
+		https://gis.stackexchange.com/questions/116701/what-does-the-values-in-column-clazz-osm2po-mean
+		The use of views enables us to enable routing with different travel modes.
+
+		Voor oscar: Een view is een soort selectie, maar dan zonder dingen dubbel op te slaan. Je voorkomt dus redundancy.
+		'''
+
+
+
+	#View of roads for cars
+	con.execute('CREATE VIEW vehicle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (11,12,13,14,15,16,21,22,31,32,41,42,43,51,63)')
+
+	#View of roads for cyclist
+	con.execute('CREATE VIEW cycle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (31,32,41,42,43,51,63,62,71,72,81)')
+
+	#View of roads for pedestrians
+	con.execute('CREATE VIEW pedestrian_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (63,62,71,72,91,92)')
+
+	#check amount of nodes per view
+	vehicle_count = con.execute('SELECT count(*) FROM vehicle_net').fetchall()
+	print vehicle_count
+
+	cycle_count = con.execute('SELECT count(*) FROM cycle_net').fetchall()
+	print cycle_count
+
+	pedestrian_count = con.execute('SELECT count(*) FROM pedestrian_net').fetchall()
+	print pedestrian_count
+
+
+
+'''
+Probaly not using this
 
 
 def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_folder = r'D:\Downloads\\', file_name = r'netherlands-latest.osm.pbf', out_name = r'osm_nl'):
@@ -138,30 +190,33 @@ def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_
 	string1 = r'osmconvert64-0.8.8p --drop-author --drop-version --out-osm {}{} > {}.osm'.format(file_folder, file_name, out_name)
 	os.system(string1)
 
-def osm2pgrouting(osm2pgrouting_folder = r'C:\Program Files\PostgreSQL\10\bin', input_file = r'osm_nl.osm', dbname = r'osm_nl_new', username = r'postgres', password=HIERPASSWORD):
+def osm2pgrouting(osm2pgrouting_folder = r'C:\\Program Files\PostgreSQL\10\bin', file_folder = r'D:\TEMP', input_file = r'roads_nl.osm', dbname = r'osm_nl_new', username = r'postgres', password=r'arolla'):
 	#trying to get a better organised road network in there
 	string = r'{}'.format(osm2pgrouting_folder)
 	os.chdir(string)
 
-	string1 = r'osm2pgrouting --f {} --conf mapconfig.xml --dbname {} --username {} --password {}--clean --addnodes --tags --attributes'.format(input_file, dbname, username, password)
+	string1 = r'osm2pgrouting --f {}\\{} --conf mapconfig.xml --dbname {} --username {} --password {} --clean --addnodes --tags --attributes'.format(file_folder, input_file, dbname, username, password)
 	os.system(string1)
-	
+'''
 
+	
+####osmfilter D:\Temp\nl.osm --keep="highway=" -o=D:\Temp\roads_nl.osm <---- read this
 
 #def main():
 	#MAIN EXECUTION
-#create_postgres_db('osm_nl_new')
-#con, meta = connect_postgres_db('osm_nl_new')
-#create_postgis_pgrouting()
+# create_postgres_db('osm')
+con, meta = connect_postgres_db('osm')
+# create_postgis_pgrouting()
 	# add_shapefile_to_postgress()
-	# query_100_result_of_table('roads')
-	# create_and_check_topology('roads')
+# query_100_result_of_table('roads')
+	#create_and_check_topology('roads')
 	#print_table_columns('osm_nl_2po_4pgr')
-	# osm2po_roads()
-	#import_osm2po()
+# osm2po_roads()
+# import_osm2po()
 	# import_osm2po()
-	#create_spatial_index()
-osm2pgrouting()
-
+# create_spatial_index()
+#create_ped_car_cycle_view()
+test_a_star()
+	#
 #if __name__ == "__main__":
 #    main()
