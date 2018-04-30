@@ -182,6 +182,11 @@ def create_ped_car_cycle_view():
 	pedestrian_count = con.execute('SELECT count(*) FROM pedestrian_net').fetchall()
 	print pedestrian_count
 
+def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\create_function.sql', dbname = 'osm'):
+	string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
+	os.system(string1)
+
+
 
 
 '''
@@ -223,7 +228,9 @@ con, meta = connect_postgres_db('osm')
 # create_spatial_index()
 #create_ped_car_cycle_view()
 # test_a_star()
-create_a_star_route()
+# create_a_star_route()
+add_sql_function()
+
 	#
 #if __name__ == "__main__":
 #    main()

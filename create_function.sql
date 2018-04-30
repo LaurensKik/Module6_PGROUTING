@@ -39,8 +39,8 @@ BEGIN
 	-- Shortest path query (TODO: limit extent by BBOX) 
         seq := 0;
         sql := 'SELECT id, geom_way, name, cost, source, target, 
-				ST_Reverse(the_geom) AS flip_geom FROM ' ||
-                        'pgr_dijkstra(''SELECT gid as id, source::int, target::int, '
+				ST_Reverse(geom_way) AS flip_geom FROM ' ||
+                        'pgr_astar(''SELECT gid as id, source::int, target::int, '
                                         || 'cost::double precision AS cost, reverse_cost::double precision AS reverse_cost FROM '
                                         || quote_ident(tbl) || ''', '
                                         || source || ', ' || target 
@@ -54,7 +54,7 @@ BEGIN
         LOOP
 		-- Flip geometry (if required)
 		IF ( point != rec.source ) THEN
-			rec.the_geom := rec.flip_geom;
+			rec.geom_way := rec.flip_geom;
 			point := rec.source;
 		ELSE
 			point := rec.target;
@@ -62,8 +62,8 @@ BEGIN
 
 		-- Calculate heading (simplified)
 		EXECUTE 'SELECT degrees( ST_Azimuth( 
-				ST_StartPoint(''' || rec.the_geom::text || '''),
-				ST_EndPoint(''' || rec.the_geom::text || ''') ) )' 
+				ST_StartPoint(''' || rec.geom_way::text || '''),
+				ST_EndPoint(''' || rec.geom_way::text || ''') ) )' 
 			INTO heading;
 
 		-- Return record
@@ -71,7 +71,7 @@ BEGIN
                 gid     := rec.gid;
                 name    := rec.name;
                 cost    := rec.cost;
-                geom    := rec.the_geom;
+                geom    := rec.geom_way;
                 RETURN NEXT;
         END LOOP;
         RETURN;
