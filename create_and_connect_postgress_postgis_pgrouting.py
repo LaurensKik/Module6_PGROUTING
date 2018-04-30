@@ -186,7 +186,9 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
 	string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
 	os.system(string1)
 
-	# VOOR JORIS CREATE TABLE temp_route AS SELECT * FROM pgr_fromAtoB('osm_nl_2po_4pgr', 5.0006881,52.352115,5.451616,51.4981942);
+# 	# VOOR JORIS CREATE TABLE temp_route AS SELECT * FROM pgr_fromAtoB('osm_nl_2po_4pgr', 5.0006881,52.352115,5.451616,51.4981942); dit gaat er fout QUERY:  SELECT id, geom_way, osm_name, cost, source, target,
+#                                 ST_Reverse(geom_way) AS flip_geom FROM pgr_astar('SELECT gid as id, source::int, target::int, cost::double precision AS cost, reverse_cost::double precision AS reverse_cost FROM osm_nl_2po_4pgr', 1329017, 14216 , false, false), osm_nl_2po_4pgr WHERE id2 = gid ORDER BY seq <---- DIT STUK AANPASSEN NAAR EERDER GEBRUIKTE ROUTE FUNCTION in create_a_star_route():
+
 
 
 
