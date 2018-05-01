@@ -44,7 +44,7 @@ BEGIN
                                         || 'cost, reverse_cost FROM '
                                         || quote_ident(tbl) || ''', '
                                         || source || ', ' || target 
-                                        || ' , heuristic := 5), '
+                                        || ' , false, false), '
                                 || quote_ident(tbl) || ' WHERE id2 = id ORDER BY seq';
 
         -- Remember start point
