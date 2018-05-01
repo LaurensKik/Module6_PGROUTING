@@ -37,7 +37,7 @@
   });
 
   var params = {
-    LAYERS: 'pgrouting:pgrouting',
+    LAYERS: 'pgrouting:hopelijk',
     FORMAT: 'image/png'
   }
 
@@ -76,7 +76,7 @@
       params.viewparams = viewparams.join(';');
       result = new ol.layer.Image({
         source: new ol.source.ImageWMS({
-          url: 'http://localhost:8082/geoserver/pgrouting/wms',
+          url: 'http://localhost:8080/geoserver//wms',
           params: params
         })
       });
