@@ -1,4 +1,6 @@
 
+
+
 #Laurens, Oscar these are the necesarry modules you can install using pipinstal e.g, type in your commandline: 'python -m pip install geoalchemy2'.
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
@@ -129,7 +131,7 @@ def create_ped_car_cycle_view():
 		https://gis.stackexchange.com/questions/116701/what-does-the-values-in-column-clazz-osm2po-mean
 		The use of views enables us to enable routing with different travel modes.
 
-		Voor oscar: Een view is een soort selectie, maar dan zonder dingen dubbel op te slaan. Je voorkomt dus redundancy.
+		Voor Laurens en Oscar: Een view is een soort selectie, maar dan zonder dingen dubbel op te slaan. Je voorkomt dus redundancy.
 		'''
 
 	#View of roads for cars
@@ -141,7 +143,12 @@ def create_ped_car_cycle_view():
 	#View of roads for pedestrians
 	con.execute('CREATE VIEW pedestrian_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (63,62,71,72,91,92)')
 
-	#check amount of nodes per view
+
+
+	#The following lines select the total amount of nodes/egdes within the created views and the original road network. These outputs should obviously differ.
+	osm_count = con.execute('SELECT count(*) FROM osm_nl_2po_4pgr').fetchall()
+	print osm_count
+
 	vehicle_count = con.execute('SELECT count(*) FROM vehicle_net').fetchall()
 	print vehicle_count
 
@@ -150,6 +157,7 @@ def create_ped_car_cycle_view():
 
 	pedestrian_count = con.execute('SELECT count(*) FROM pedestrian_net').fetchall()
 	print pedestrian_count
+
 
 def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\create_function_astar.sql', dbname = 'osm'):
 
@@ -165,15 +173,19 @@ def main():
 	# create_postgres_db('osm')
 	# con, meta = connect_postgres_db('osm')
 	# create_postgis_pgrouting()
+
 # Create a SQL dump containing topology of and osm.pbf file.
 	# osm2po_roads()
+
 # Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
 	# import_osm2po()
 	# create_spatial_index()
 	# create_ped_car_cycle_view()
+
 # When de database is fully functioning it will test the low-level a star function.
 	# test_a_star()
 	# create_a_star_route()
+
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 	# add_sql_function()
 
