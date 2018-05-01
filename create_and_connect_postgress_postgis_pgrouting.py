@@ -185,10 +185,10 @@ con, meta = connect_postgres_db('osm')
 # When de database is fully functioning it will test the low-level a star function.
 # test_a_star()
 # create_a_star_route()
-# create_ped_car_cycle_view()
+create_ped_car_cycle_view()
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
-add_sql_function()
+# add_sql_function()
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
