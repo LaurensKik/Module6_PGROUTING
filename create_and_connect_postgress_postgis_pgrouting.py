@@ -114,7 +114,7 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
     osm2po already created x1 y1 etc.
     '''
 
-    string = r"SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);"
+    string = r"SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);".format(tablename, tablename)
     a_star = con.execute(string)#.fetchall
     for x in a_star:
         print(x)
@@ -128,8 +128,7 @@ def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2p
 
     string = r"CREATE TABLE {} AS SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);".format(new_tablename, road_network_table, road_network_table)
     a_star = con.execute(string)#.fetchall
-    for x in a_star:
-        print(x)
+    print('het leven is een succes')
 
 def create_ped_car_cycle_view():
     ''' This function creates three seperate views for cars, cyclist and pedestrians respectively. More information on the values can be found  at :
@@ -164,7 +163,7 @@ def create_ped_car_cycle_view():
     print(pedestrian_count)
 
 
-def add_sql_function(sql_location_file = r'D:\Documenten\GIMA\Module 6\Datas\create_function_astar.sql', dbname = 'osm'):
+def add_sql_function(sql_location_file = r'D:\GitHub\Module6_PGROUTING\SQL_functions\coordinates_dijkstra_route.sql', dbname = 'osm'):
 
     # Add a sql function to your database, e.g, the coordinates to dijkstra output
     string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
@@ -180,13 +179,13 @@ con, meta = connect_postgres_db('osm')
 # osm2po_roads()
 
 # Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
-import_osm2po()
-create_spatial_index()
-create_ped_car_cycle_view()
+# import_osm2po()
+# create_spatial_index()
 
 # When de database is fully functioning it will test the low-level a star function.
-test_a_star()
-create_a_star_route()
+# test_a_star()
+# create_a_star_route()
+# create_ped_car_cycle_view()
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 add_sql_function()
