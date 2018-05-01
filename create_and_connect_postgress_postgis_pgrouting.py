@@ -108,18 +108,23 @@ def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)')
 
 def test_a_star(tablename = 'osm_nl_2po_4pgr'):
 	''' 
+	This functions tests your road network using the a* shortest path alghorithm and delivers print the output based on the standard osm2po column names.
 	http://pgrouting.org/docs/foss4g2008/ch08.html
 	osm2po already created x1 y1 etc.
 	'''
 
-	string = r"SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM osm_nl_2po_4pgr', 2, 12, heuristic:= 5) a LEFT join osm_nl_2po_4pgr b ON (a.edge = b.id);"
+	string = r"SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);"
 	a_star = con.execute(string)#.fetchall
 	for x in a_star:
 		print x
 
 
-def create_a_star_route():
-	string = r"CREATE TABLE route AS SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM osm_nl_2po_4pgr', 2, 12, heuristic:= 5) a LEFT join osm_nl_2po_4pgr b ON (a.edge = b.id);"
+def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
+	'''
+	This functions creates a new database based on the standard osm2po column names.
+	'''
+
+	string = r"CREATE TABLE {} AS SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);".format(new_tablename, road_network_table, road_network_table)
 	a_star = con.execute(string)#.fetchall
 	for x in a_star:
 		print x
