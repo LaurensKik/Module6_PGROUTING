@@ -1,0 +1,184 @@
+[33mcommit 2b775ee646e66c8a96fa0a4f0ef7fa953aa440ad[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Tue May 1 12:47:10 2018 +0200
+
+    some more comments
+
+[33mcommit cd77c72074d6808c57fb12bd72430490da52b180[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Tue May 1 12:41:51 2018 +0200
+
+    Some more comments
+
+[33mcommit 8eb3bb9cd2bfb2fdba02946684bb9de3e975a872[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Tue May 1 12:30:42 2018 +0200
+
+    Organized folders
+
+[33mcommit 739e87a434a903e8733fe7e50f1b2bb7f766f3f4[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Tue May 1 12:29:46 2018 +0200
+
+    First step of documenting python file. Added sql functions (work in progress), added first html.
+
+[33mcommit 2757ab6ef4eae12f77bd8dc3b7e67c5c22adb216[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 16:14:00 2018 +0200
+
+    DOEI IK GA NAAR DE SPEELTUIN EN JIJ MAG NIET MEE
+
+[33mcommit 613ada6703829fa1dcea1e4448dea12ac3d9582b[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 16:11:58 2018 +0200
+
+    HOI BETTY JE HEBT GEEN AANDHACT VOOR MIJ :( allen voor de advancded gis kindjes
+
+[33mcommit 2bb10b388b1c819b6c8e672a851a3cd969e49972[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 16:01:51 2018 +0200
+
+    IK HEB EEN SQL FUNCTIE TOEGEVOEGD MAAR IK WEET NIET OF DIT WERK
+
+[33mcommit 0f50e7ba9afcc1eae3438da8dc0f561f63bdd411[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 15:43:12 2018 +0200
+
+    I PLAY POKEMON GO EVRIIIIDAY
+
+[33mcommit 719dae6197c0a3949b7cb624e90008ef4f675990[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 15:31:27 2018 +0200
+
+    Oscar zit onder de plak van twee chicks
+
+[33mcommit 390fa90cbeea1cb6ae1261121318818c1441a6ca[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 30 15:25:10 2018 +0200
+
+    DOODLESACKSONCURT
+
+[33mcommit 2dd75a6c69726940d99569dec10bffc83c94ff42[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 25 18:14:24 2018 +0200
+
+    d
+
+[33mcommit 2569dd94b1b606c8b8461e99c7f6f6daf3eb93b7[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 25 17:59:24 2018 +0200
+
+    added osm2pgrouting functions
+    
+    Not yet tested, pc was busy running other things
+
+[33mcommit 0bbe156e7d6a920d36dc6d8026f6629545bc4715[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 25 17:13:49 2018 +0200
+
+    Merge branch 'master' of https://github.com/JTimmermans/Module6_PGROUTING
+
+[33mcommit 7d89e7ae8f7a16e8ca308899e2a48e230fa6b4d1[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Tue Apr 24 10:27:10 2018 +0200
+
+    Created main() function
+    
+    HOI BETTYBOOP
+
+[33mcommit d2ccabf3d22d23b10859a8bf412d8f79c1d3ba41[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 16 15:42:27 2018 +0200
+
+    the answer to 'WHEN IS GIS LIFE? is not 'IT DEPENDS'. It's 'EVERY TIME'.
+
+[33mcommit 0abab653c4ec9ae3d855034daa240ead14cdb218[m
+Merge: b86f45e 8fd22dd
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 16 15:38:30 2018 +0200
+
+    Merge branch 'master' of https://github.com/JTimmermans/Module6_PGROUTING
+
+[33mcommit b86f45e139fe87ec48149ad79b3334e121c489f3[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Mon Apr 16 15:37:47 2018 +0200
+
+    NICKY NIET LUISTEREN NAAR OSCAR
+
+[33mcommit 8fd22ddeaa4a03ba3cc15d478a13bc054ffb6368[m
+Author: bkronemeijer <38286979+bkronemeijer@users.noreply.github.com>
+Date:   Mon Apr 16 15:31:33 2018 +0200
+
+    Create spatial index functie toegevoegd
+
+[33mcommit 600fd5ea1321d9e537c8d5b6fa92eedff90fefaa[m
+Author: bkronemeijer <38286979+bkronemeijer@users.noreply.github.com>
+Date:   Sun Apr 15 12:43:11 2018 +0200
+
+    added git test file
+
+[33mcommit 812ee4845a856e9fd64ea2b4b1abd767249fda16[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Thu Apr 12 15:16:13 2018 +0200
+
+    HOIIII OSCAR SNAP JE DIT?
+
+[33mcommit e1e8d7a8f9d21557021afbf5866e8fec9569c004[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Thu Apr 12 14:01:38 2018 +0200
+
+    HELP
+
+[33mcommit 7e36edd17e006da472560c315b1198b935283073[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Thu Apr 12 13:14:04 2018 +0200
+
+    GIS IS GEEN AID
+
+[33mcommit 13491dbd71a4802214a8aff216b95c9ce0f97fca[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Thu Apr 12 13:09:49 2018 +0200
+
+    ADEMEN IS AID
+
+[33mcommit e024633c15ba5c3985610e00b2038d32f9b9de31[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Thu Apr 12 11:14:52 2018 +0200
+
+    HOI BETTY
+
+[33mcommit 6ec4de0a105662b9769db98d2ada2cf199bf71c5[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 19:35:37 2018 +0200
+
+    allemaal nonsens
+
+[33mcommit 7af9631d0297bc721bf17fb2efba2d7b997aeef1[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 18:22:10 2018 +0200
+
+    and again
+
+[33mcommit 251387ca2ce996541f0127d4d9cedb2233349a05[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 18:08:56 2018 +0200
+
+    ladiela shapefile function added
+
+[33mcommit 51aeaa4a207863e4b459214e495fb1b5bb80546a[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 15:18:59 2018 +0200
+
+    Createed several basic postgress postigs pgrouting functions
+
+[33mcommit d962a3d3af0a9fd539ab8fd5126a30a4eb9b32bd[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 14:53:47 2018 +0200
+
+    Def functions
+
+[33mcommit c25aa6b33e2d94a3c486bdcc1e68cceef13f7932[m
+Author: JTimmermans <jtjoris@gmail.com>
+Date:   Wed Apr 11 14:28:25 2018 +0200
+
+    Initial commit
