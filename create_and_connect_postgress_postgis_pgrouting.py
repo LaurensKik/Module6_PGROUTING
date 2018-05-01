@@ -1,3 +1,5 @@
+
+#Laurens, Oscar these are the necesarry modules you can install using pipinstal e.g, type in your commandline: 'python -m pip install geoalchemy2'.
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
 import geoalchemy2 #Otherwise geom column is loaded wrong
@@ -8,9 +10,10 @@ import webbrowser
 # some interesting slides: http://www.postgis.us/presentations/postgis_install_guide_22.html#/11
 
 def create_postgres_db(databasename):
+	''' creates a database at a localhost'''
     db_name = databasename
 
-    #ask password
+    #ask the user for a password and stores it in 'password'
     password = getpass.getpass()
     
     #create starting point
@@ -25,14 +28,12 @@ def create_postgres_db(databasename):
     #create database
     con.execute("CREATE DATABASE " +db_name)
 
-def connect_postgres_db(db):
+
+def connect_postgres_db(db, user = 'postrgres', host = 'localhost', port = '5432'):
     '''Returns a connection and a metadata object'''
-    # We connect with the help of the PostgreSQL URL
-    # postgresql://federer:grandestslam@localhost:5432/tennis
-    user = 'postgres'
+    
+    #ask the user for a password and stores it in 'password'
     password = getpass.getpass()
-    host='localhost'
-    port=5432
 
     url = 'postgresql://{}:{}@{}:{}/{}'
     url = url.format(user, password, host, port, db)
@@ -47,7 +48,11 @@ def connect_postgres_db(db):
 
 
 def create_postgis_pgrouting():
-    #creates the necessary spatial plugins such as postgis and pgrouting within a database
+	''' Creates the necessary spatial plugins such as postgis and pgrouting within a database. The 'con' object is the engine created using the 'connect_postgres_db()' function. the 'execute()' functions takes a SQL statement which is send to the postgres DB. The '.fetchall()' retrieves all the information and stores in in a python readable object.
+	
+	The last part of the function checks the version of the installed extensions.
+	'''
+    
     con.execute('CREATE EXTENSION postgis')
     con.execute('CREATE EXTENSION hstore')
     con.execute('CREATE EXTENSION fuzzystrmatch')
@@ -55,76 +60,42 @@ def create_postgis_pgrouting():
     con.execute('CREATE EXTENSION postgis_topology')
     con.execute('CREATE EXTENSION pgrouting')
 
-    #check if working
-    result1 = con.execute('SELECT postgis_full_version()')
-    for r in result1:
-        print(r)
+    # Check if working
+    result1 = con.execute('SELECT postgis_full_version()').fetchall()
+    print(result1)
 
-    result2 = con.execute('SELECT * FROM pgr_version()')
-    for r in result2:
-        print(r)
+    result2 = con.execute('SELECT * FROM pgr_version()').fetchall()
+    print(result2)
 
-
-def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data\OSM_SHAPES", shp_name = r"amsterdam_cyclepaths.shp", user = 'postgres', db = 'osm' ):
-    
-    #set working directory to shp folder
-    os.chdir(shp_folder)
-    
-    # create string to execute in command line (outside of python)
-    string = r'shp2pgsql -I "{}\\{}" public.roads | psql -U {} -d {}'.format(os.getcwd(), shp_name, user, db)
-    print(string)
-
-    #execute the formatted command in CMD
-    os.system(string)
-
-def query_100_result_of_table(tablename):
-    ''' Requires a current connection'''
-    string = 'SELECT * FROM {} LIMIT 100'.format(tablename)
-    result = con.execute(string)
-    for r in result:
-        print(r)
-
-def print_table_columns(tablename):
-    ''' Requires a current connection'''
-    result = con.execute('SELECT column_name FROM information_schema.columns WHERE table_name=\'{}\''.format(tablename))
-    for r in result:
-        print(r)
-
-def create_and_check_topology(tablename):
-    ''' Requires a current connection, more info http://docs.pgrouting.org/2.3/en/doc/src/tutorial/tutorial.html'''
-    #LOL DEZE DOET NIETS, niet gebruiken
-    #create topology
-    con.execute('ALTER TABLE {} ADD COLUMN "source" integer'.format(tablename))
-    con.execute('ALTER TABLE {} ADD COLUMN "target" integer'.format(tablename))
-    con.execute('select pgr_createTopology(\'{}\', 0.000001, \'geom\', \'gid\')'.format(tablename))
-    #con.execute('select pgr_analyzegraph(\'{}\', 0.000001)'.format(tablename))
-    #con.execute('select pgr_analyzeoneway(\'{}\',  s_in_rules, s_out_rules, t_in_rules, t_out_rules, direction)'.format(tablename))
 
 def osm2po_roads(geofabriklink = 'http://download.geofabrik.de/europe/netherlands-latest.osm.pbf', prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
 
-    #set directory to osm2po folder
+    # Sets the working directory to osm2po folder
     os.chdir(osm2po_folder)
 
-    string = r'java -jar osm2po-core-5.2.43-signed.jar prefix={} {} '.format(prefix_name, geofabriklink)
-    print(string)
+    # The version of osm2po version used can be found at: http://osm2po.de/releases/osm2po-5.2.43.zip . Extract this to your computer, make sure JAVA is installed and is set within your PATH environment. More info can be found at http://osm2po.de/ .
 
+    # The configuration file used in osm2po is uploaded on github with the name osm2po.config. Use this one to extract car, cycling and pedestrian roads and exclude trains boat and tram roads.
+
+    # Executes a string in the commandline of your pc. In this case, a program called osm2po extracts the latest Dutch osm files, containing all object types e.g., houses, parks, roads, shops. The program selects only the roads, and converts it to a file that can be imported by a Database Management System (DBBMS).
+
+    string = r'java -jar osm2po-core-5.2.43-signed.jar prefix={} {} '.format(prefix_name, geofabriklink)
     os.system(string)
 
-def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP'):
 
+def import_osm2po(prefix_name= 'osm_nl', osm2po_folder = r'D:\TEMP', dbname= 'osm', dbuser= 'postgres'):
+
+	# Sets the working directory to the place where osm2po created a SQL file.
     string = r'{}\\{}'.format(osm2po_folder, prefix_name)
     os.chdir(string)
 
-    string1 = r'psql -d osm -U postgres -f {}_2po_4pgr.sql'.format(prefix_name)
+    # Imports the osm2po sql file into your database using your commandline.
+    string1 = r'psql -d {} -U {} -f {}_2po_4pgr.sql'.format(dbname, dbuser, prefix_name)
     os.system(string1)
 
-    # string2 = r'psql -d osm -U postgres -f {}_2po_polyway.sql'.format(prefix_name)
-    # os.system(string2)
-
-    # string3 = r'psql -d osm -U postgres -f {}_2po_vertex.sql'.format(prefix_name)
-    # os.system(string3)
 
 def create_spatial_index(tablename = 'osm_nl_2po_4pgr', geometry = '(geom_way)'):
+	'''This function creates a normal and spatial index on the road network to speed up queries'''
 
 	# Normal index
 	con.execute('CREATE INDEX idx_osm_nl_2po_4pgr_id ON public.{}(id)'.format(tablename))
@@ -161,8 +132,6 @@ def create_ped_car_cycle_view():
 		Voor oscar: Een view is een soort selectie, maar dan zonder dingen dubbel op te slaan. Je voorkomt dus redundancy.
 		'''
 
-
-
 	#View of roads for cars
 	con.execute('CREATE VIEW vehicle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (11,12,13,14,15,16,21,22,31,32,41,42,43,51,63)')
 
@@ -182,19 +151,78 @@ def create_ped_car_cycle_view():
 	pedestrian_count = con.execute('SELECT count(*) FROM pedestrian_net').fetchall()
 	print pedestrian_count
 
-def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\create_function.sql', dbname = 'osm'):
+def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\create_function_astar.sql', dbname = 'osm'):
+
+	# Add a sql function to your database, e.g, the coordinates to dijkstra output
 	string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
 	os.system(string1)
 
-# 	# VOOR JORIS CREATE TABLE temp_route AS SELECT * FROM pgr_fromAtoB('osm_nl_2po_4pgr', 5.0006881,52.352115,5.451616,51.4981942); dit gaat er fout QUERY:  SELECT id, geom_way, osm_name, cost, source, target,
-#                                 ST_Reverse(geom_way) AS flip_geom FROM pgr_astar('SELECT gid as id, source::int, target::int, cost::double precision AS cost, reverse_cost::double precision AS reverse_cost FROM osm_nl_2po_4pgr', 1329017, 14216 , false, false), osm_nl_2po_4pgr WHERE id2 = gid ORDER BY seq <---- DIT STUK AANPASSEN NAAR EERDER GEBRUIKTE ROUTE FUNCTION in create_a_star_route():
+
+
+
+def main():
+# First create a database, connect to it, and add spatial extensions.
+	# create_postgres_db('osm')
+	# con, meta = connect_postgres_db('osm')
+	# create_postgis_pgrouting()
+# Create a SQL dump containing topology of and osm.pbf file.
+	# osm2po_roads()
+# Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
+	# import_osm2po()
+	# create_spatial_index()
+	# create_ped_car_cycle_view()
+# When de database is fully functioning it will test the low-level a star function.
+	# test_a_star()
+	# create_a_star_route()
+# Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
+	# add_sql_function()
+
+
+if __name__ == "__main__":
+   main()
 
 
 
 
-'''
-Probaly not using this
 
+
+
+###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
+"""
+def add_shapefile_to_postgress(shp_folder = r"C:\Users\Joris\Google Drive\Gima\Module_6\Module-6_groupwork\Data\OSM_SHAPES", shp_name = r"amsterdam_cyclepaths.shp", user = 'postgres', db = 'osm' ):
+    
+    #set working directory to shp folder
+    os.chdir(shp_folder)
+    
+    # create string to execute in command line (outside of python)
+    string = r'shp2pgsql -I "{}\\{}" public.roads | psql -U {} -d {}'.format(os.getcwd(), shp_name, user, db)
+    print(string)
+
+    #execute the formatted command in CMD
+    os.system(string)
+
+def query_100_result_of_table(tablename):
+    ''' Requires a current connection'''
+    string = 'SELECT * FROM {} LIMIT 100'.format(tablename)
+    result = con.execute(string)
+    for r in result:
+        print(r)
+
+def print_table_columns(tablename):
+    ''' Requires a current connection'''
+    result = con.execute('SELECT column_name FROM information_schema.columns WHERE table_name=\'{}\''.format(tablename))
+    for r in result:
+        print(r)
+
+def create_and_check_topology(tablename):
+    ''' Requires a current connection, more info http://docs.pgrouting.org/2.3/en/doc/src/tutorial/tutorial.html'''
+    #LOL DEZE DOET NIETS, niet gebruiken
+    #create topology
+    con.execute('ALTER TABLE {} ADD COLUMN "source" integer'.format(tablename))
+    con.execute('ALTER TABLE {} ADD COLUMN "target" integer'.format(tablename))
+    con.execute('select pgr_createTopology(\'{}\', 0.000001, \'geom\', \'gid\')'.format(tablename))
+    #con.execute('select pgr_analyzegraph(\'{}\', 0.000001)'.format(tablename))
+    #con.execute('select pgr_analyzeoneway(\'{}\',  s_in_rules, s_out_rules, t_in_rules, t_out_rules, direction)'.format(tablename))
 
 def pbf_to_osm(osmconvert_folder = r'C:\Program Files\PostgreSQL\10\bin>', file_folder = r'D:\Downloads\\', file_name = r'netherlands-latest.osm.pbf', out_name = r'osm_nl'):
 	#trying to get a better organised road network in there
@@ -211,29 +239,4 @@ def osm2pgrouting(osm2pgrouting_folder = r'C:\\Program Files\PostgreSQL\10\bin',
 
 	string1 = r'osm2pgrouting --f {}\\{} --conf mapconfig.xml --dbname {} --username {} --password {} --clean --addnodes --tags --attributes'.format(file_folder, input_file, dbname, username, password)
 	os.system(string1)
-'''
-
-	
-####osmfilter D:\Temp\nl.osm --keep="highway=" -o=D:\Temp\roads_nl.osm <---- read this
-
-#def main():
-	#MAIN EXECUTION
-# create_postgres_db('osm')
-# con, meta = connect_postgres_db('osm')
-# create_postgis_pgrouting()
-	# add_shapefile_to_postgress()
-# query_100_result_of_table('roads')
-	#create_and_check_topology('roads')
-	#print_table_columns('osm_nl_2po_4pgr')
-# osm2po_roads()
-# import_osm2po()
-	# import_osm2po()
-# create_spatial_index()
-#create_ped_car_cycle_view()
-# test_a_star()
-# create_a_star_route()
-add_sql_function()
-
-	#
-#if __name__ == "__main__":
-#    main()
+"""

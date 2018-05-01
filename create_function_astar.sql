@@ -1,8 +1,8 @@
 --
---DROP FUNCTION pgr_fromAtoB(varchar, double precision, double precision, 
+--DROP FUNCTION pgr_fromAtoB_astar(varchar, double precision, double precision, 
 --                           double precision, double precision);
 
-CREATE OR REPLACE FUNCTION pgr_fromAtoB(
+CREATE OR REPLACE FUNCTION pgr_fromAtoB_astar(
                 IN tbl varchar,
                 IN x1 double precision,
                 IN y1 double precision,
@@ -40,11 +40,11 @@ BEGIN
         seq := 0;
         sql := 'SELECT id, geom_way, osm_name, source, target, 
                                 ST_Reverse(geom_way) AS flip_geom FROM ' ||
-                        'pgr_dijkstra(''SELECT id as id, source::int, target::int, '
-                                        || 'cost, reverse_cost FROM '
+                        'pgr_astar(''SELECT id as id, source::int, target::int, '
+                                        || 'cost, revese_cost, x1, y1, x2, y2 FROM '
                                         || quote_ident(tbl) || ''', '
                                         || source || ', ' || target 
-                                        || ' , heuristic := 5), '
+                                        || ' , false, false), '
                                 || quote_ident(tbl) || ' WHERE id2 = id ORDER BY seq';
 
         -- Remember start point
