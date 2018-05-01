@@ -140,13 +140,13 @@ def create_ped_car_cycle_view():
         '''
 
     #View of roads for cars
-    con.execute('CREATE VIEW vehicle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (11,12,13,14,15,16,21,22,31,32,41,42,43,51,63)')
+    con.execute('CREATE VIEW vehicle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost, geom_way, osm_name FROM osm_nl_2po_4pgr WHERE clazz in (11,12,13,14,15,16,21,22,31,32,41,42,43,51,63)')
 
     #View of roads for cyclist
-    con.execute('CREATE VIEW cycle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (31,32,41,42,43,51,63,62,71,72,81)')
+    con.execute('CREATE VIEW cycle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost, geom_way, osm_name FROM osm_nl_2po_4pgr WHERE clazz in (31,32,41,42,43,51,63,62,71,72,81)')
 
     #View of roads for pedestrians
-    con.execute('CREATE VIEW pedestrian_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost FROM osm_nl_2po_4pgr WHERE clazz in (63,62,71,72,91,92)')
+    con.execute('CREATE VIEW pedestrian_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost, geom_way, osm_name FROM osm_nl_2po_4pgr WHERE clazz in (63,62,71,72,91,92)')
 
 
     #The following lines select the total amount of nodes/egdes within the created views and the original road network. These outputs should obviously differ.
