@@ -9,15 +9,14 @@
   <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
   <style>
   #map {
-    width: 100%;
-    height: 400px;
+    width: 80%;
+    height: 60%;
   }
   </style>
   </head>
   <body>
   <div id="map"></div>
   <button id="clear">clear</button>
-  <script src="http://localhost/ol3/dist/ol.js"></script>
   <script type="text/javascript">
   var map = new ol.Map({
     target: 'map',
@@ -27,8 +26,8 @@
       })
     ],
     view: new ol.View({
-      center: ol.proj.transform([7.1192, 50.7149], 'EPSG:4326', 'EPSG:3857'),
-      zoom: 13
+      center: ol.proj.transform([5.1044, 52.0928], 'EPSG:4326', 'EPSG:3857'),
+      zoom: 7.8
     }),
     controls: ol.control.defaults({
       attributionOptions: {
@@ -38,7 +37,7 @@
   });
 
   var params = {
-    LAYERS: ' osm:osm_nl_2po_4pgr',
+    LAYERS: 'pgrouting:hopelijk',
     FORMAT: 'image/png'
   }
 
@@ -77,7 +76,7 @@
       params.viewparams = viewparams.join(';');
       result = new ol.layer.Image({
         source: new ol.source.ImageWMS({
-          url: 'http://localhost:8082/geoserver/osm_nl_2po_4pgr/wms',
+          url: 'http://localhost:8080/geoserver//wms',
           params: params
         })
       });

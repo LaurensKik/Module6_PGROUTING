@@ -165,7 +165,7 @@ def create_ped_car_cycle_view():
     print(pedestrian_count)
 
 
-def add_sql_function(sql_location_file = r'D:\GitHub\Module6_PGROUTING\SQL_functions\coordinates_dijkstra_route.sql', dbname = 'osm'):
+def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\SQL_functions\coordinates_dijkstra_route.sql', dbname = 'osm'):
 
     # Add a sql function to your database, e.g, the coordinates to dijkstra output
     string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
@@ -194,12 +194,13 @@ con, meta = connect_postgres_db('osm')
 
 # test_a_star()
 # create_a_star_route()
-create_ped_car_cycle_view()
+# create_ped_car_cycle_view()
 
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 
 # add_sql_function()
+
 
 
 
