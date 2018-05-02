@@ -1,7 +1,15 @@
-
+############################################################################################
+# Script name           create and connect psql pgrouting module 6
+# Authors               de coolste
+# Date                  altijd
+# Description           Creates a database and connects to it everytime the script runs
+#                       Imports OSM road network as a postgres database
+#                       Creates multiple transport methods views (Car / Bike / Pedestrian)
+#                       Adds SQL functions (Dijkstra algorithm)
+############################################################################################
     
 
-#Laurens, Oscar these are the necesarry modules you can install using pipinstal e.g, type in your commandline: 'python -m pip install geoalchemy2'.
+#Laurens, Oscar these are the necesarry modules you can install using pipinstall e.g, type in your commandline: 'python -m pip install geoalchemy2'.
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
 import geoalchemy2 #Otherwise geom column is loaded wrong
@@ -11,7 +19,9 @@ import webbrowser
 
 # some interesting slides: http://www.postgis.us/presentations/postgis_install_guide_22.html#/11
 
-def create_postgres_db(databasename = 'Betty'):
+def create_postgres_db(databasename):
+
+    # You only need to execute this function once; it creates the database
 
     ''' creates a database at a localhost'''
     db_name = databasename
@@ -122,8 +132,12 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
         print(x)
 
 
+<<<<<<< HEAD
 
 def create_a_star_route(new_tablename = 'laurens', road_network_table = 'osm_nl_2po_4pgr'):
+=======
+def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
+>>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -131,6 +145,7 @@ def create_a_star_route(new_tablename = 'laurens', road_network_table = 'osm_nl_
     string = r"CREATE TABLE {} AS SELECT seq, node, edge, b.geom_way, b.osm_name FROM pgr_astar('SELECT id, source, target, cost ,reverse_cost, x1, y1, x2, y2 FROM {}', 2, 12, heuristic:= 5) a LEFT join {} b ON (a.edge = b.id);".format(new_tablename, road_network_table, road_network_table)
     a_star = con.execute(string)#.fetchall
     print('het leven is een succes')
+
 
 def create_ped_car_cycle_view():
     ''' This function creates three seperate views for cars, cyclist and pedestrians respectively. More information on the values can be found  at :
@@ -173,24 +188,44 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
 
 
 # First create a database, connect to it, and add spatial extensions.
+
 # create_postgres_db('osm')
 con, meta = connect_postgres_db('osm')
 # create_postgis_pgrouting()
 
+
 # Create a SQL dump containing topology of and osm.pbf file.
+
 # osm2po_roads()
 
+
 # Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
+
 # import_osm2po()
 # create_spatial_index()
 
+
 # When de database is fully functioning it will test the low-level a star function.
+
 # test_a_star()
 create_a_star_route()
 # create_ped_car_cycle_view()
 
+
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
+<<<<<<< HEAD
 # add_sql_function()
+=======
+
+# add_sql_function()
+
+
+
+
+
+
+
+>>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
