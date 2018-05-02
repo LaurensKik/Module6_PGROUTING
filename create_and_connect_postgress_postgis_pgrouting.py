@@ -1,7 +1,15 @@
-
+############################################################################################
+# Script name           create and connect psql pgrouting module 6
+# Authors               de coolste
+# Date                  altijd
+# Description           Creates a database and connects to it everytime the script runs
+#                       Imports OSM road network as a postgres database
+#                       Creates multiple transport methods views (Car / Bike / Pedestrian)
+#                       Adds SQL functions (Dijkstra algorithm)
+############################################################################################
     
 
-#Laurens, Oscar these are the necesarry modules you can install using pipinstal e.g, type in your commandline: 'python -m pip install geoalchemy2'.
+#Laurens, Oscar these are the necesarry modules you can install using pipinstall e.g, type in your commandline: 'python -m pip install geoalchemy2'.
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
 import geoalchemy2 #Otherwise geom column is loaded wrong
