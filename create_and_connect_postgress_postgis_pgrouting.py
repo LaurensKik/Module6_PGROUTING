@@ -32,7 +32,7 @@ def create_postgres_db(databasename = 'Betty'):
     con.execute("CREATE DATABASE " + db_name)
 
 
-def connect_postgres_db(db = 'joris', user = 'postgres', host = 'localhost', port = '5432'):
+def connect_postgres_db(db = 'osm', user = 'postgres', host = 'localhost', port = '5432'):
     '''Returns a connection and a metadata object'''
     
     #ask the user for a password and stores it in 'password'
@@ -46,6 +46,8 @@ def connect_postgres_db(db = 'joris', user = 'postgres', host = 'localhost', por
 
     # We then bind the connection to MetaData()
     meta = MetaData(bind=con, reflect=True)
+
+    print(type(con))
 
     return con, meta #returning con keeps you connected to the database, using con.execute('sql_syntax_here') excecutes and sql command.
 
@@ -121,7 +123,7 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
 
 
 
-def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
+def create_a_star_route(new_tablename = 'laurens', road_network_table = 'osm_nl_2po_4pgr'):
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -184,11 +186,11 @@ con, meta = connect_postgres_db('osm')
 
 # When de database is fully functioning it will test the low-level a star function.
 # test_a_star()
-# create_a_star_route()
+create_a_star_route()
 # create_ped_car_cycle_view()
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
-add_sql_function()
+# add_sql_function()
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
