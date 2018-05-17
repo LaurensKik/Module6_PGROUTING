@@ -132,12 +132,8 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
         print(x)
 
 
-<<<<<<< HEAD
 
-def create_a_star_route(new_tablename = 'laurens', road_network_table = 'osm_nl_2po_4pgr'):
-=======
 def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
->>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -213,19 +209,8 @@ create_a_star_route()
 
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
-<<<<<<< HEAD
-# add_sql_function()
-=======
 
 # add_sql_function()
-
-
-
-
-
-
-
->>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
