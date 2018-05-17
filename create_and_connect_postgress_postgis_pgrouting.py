@@ -8,7 +8,6 @@
 #                       Adds SQL functions (Dijkstra algorithm)
 ############################################################################################
     
-
 #Laurens, Oscar these are the necesarry modules you can install using pipinstall e.g, type in your commandline: 'python -m pip install geoalchemy2'.
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
@@ -16,6 +15,9 @@ import geoalchemy2 #Otherwise geom column is loaded wrong
 import getpass
 import os
 import webbrowser
+
+import requests #This package is for accessing webpages over URLs, not sure if we need it, still testing sth.
+import json
 
 # some interesting slides: http://www.postgis.us/presentations/postgis_install_guide_22.html#/11
 
@@ -133,7 +135,7 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
 
 
 
-def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
+def create_a_star_route(new_tablename = 'route2', road_network_table = 'osm_nl_2po_4pgr'):
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -182,11 +184,31 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
     string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
     os.system(string1)
 
+def get_parking_locations ():
+
+    # gets a JSON file that contains all Amsterdam's parking garages and their properties. Next step is to extract the coordinates ("coordinates") and name ("Name") and to put these in a database (?)
+    response = requests.get('http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/ParkingLocation.json')
+    json_file = response.json()
+    #print(json_file)
+
+
+def get_dynamic_park_data (url = r'http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/dynamic/', params = 'name'):
+    """
+    Wat is handig? De data getten van het web voor twee doeleinden:
+        - Parkeergarage locaties voor geocoding -> "name":"CE-P01 Sloterdijk"
+        - Updaten van realtime parkeergarage gegevens. Zowel: "open":true versus "open":false EN "vacantSpaces" > 5
+
+    http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/dynamic/ -> op deze pagina (link deel 1) staan alle links naar de dynamische data, zoals: 900000000_parkinglocation.json (link deel 2)
+    link deel 1 + link deel 2 wordt http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/dynamic/900000000_parkinglocation.json, en als je die url in requests.get(url) zet ontvang je de dynamische content. Nu nog uitvinden hoe je hier met een for-loop o.i.d. doorheen kan gaan
+    """
+
+    response = requests.get(url = url) 
+    response.json()
 
 # First create a database, connect to it, and add spatial extensions.
 
 # create_postgres_db('osm')
-con, meta = connect_postgres_db('osm')
+# con, meta = connect_postgres_db('osm')
 # create_postgis_pgrouting()
 
 
@@ -195,20 +217,24 @@ con, meta = connect_postgres_db('osm')
 # osm2po_roads()
 
 
-# Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
+## Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
 
 # import_osm2po()
 # create_spatial_index()
 
 
-# When de database is fully functioning it will test the low-level a star function.
+## When de database is fully functioning it will test the low-level a star function.
 
 # test_a_star()
-create_a_star_route()
+# create_a_star_route()
 # create_ped_car_cycle_view()
 
+## requesting JSON data about parking locations & dynamic parking availability. VERY MUCH UNDER CONSTRUCTION
 
-# Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
+# get_parking_locations()
+# get_dynamic_park_data()
+
+## Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 
 # add_sql_function()
 
