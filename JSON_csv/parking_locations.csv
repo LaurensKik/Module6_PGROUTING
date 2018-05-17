@@ -1,0 +1,44 @@
+type,Id,geometry/type,long,lat,Name,PubDate,Type,State,FreeSpaceShort,FreeSpaceLong,ShortCapacity,LongCapacity
+Feature,02900c40-0e95-4369-b9c4-22b2233a3440,Point,4.915205,52.377864,CE-P28 PTA Touringcars,2018-05-17T09:30:42.295Z,parkinglocation,ok,42,,42,
+Feature,900000118_parkinglocation,Point,4.92911,52.35694,CE-P20 Oostpoort,2018-05-17T09:30:42.295Z,parkinglocation,ok,151,0,373,0
+Feature,900000001_parkinglocation,Point,4.8536,52.343,CE-P02 P Olympisch stadion,2018-05-17T09:30:42.295Z,parkinglocation,ok,135,58,314,190
+Feature,900000117_parkinglocation,Point,4.96043,52.37135,CE-P16 P+R Zeeburg 1,2018-05-17T09:30:42.295Z,parkinglocation,ok,3,0,210,0
+Feature,901000105_parkinglocation,Point,4.864,52.3338,ZD-P3 VU campus,2018-05-17T09:30:42.295Z,parkinglocation,warning,59,,83,
+Feature,900000080_parkinglocation,Point,4.93866,52.313,ZO-P04 Villa ArenA,2018-05-17T09:30:42.295Z,parkinglocation,error,310,397,347,500
+Feature,902000105_parkinglocation,Point,4.8595,52.334,ZD-P1 VUmc (westflank),2018-05-17T09:30:42.295Z,parkinglocation,ok,7,,423,
+Feature,900000004_parkinglocation,Point,4.87663,52.36988,CE-P05 Euro Parking,2018-05-17T09:30:42.295Z,parkinglocation,ok,161,24,268,179
+Feature,900000087_parkinglocation,Point,4.90901,52.37601,CE-P15 Oosterdok,2018-05-17T09:30:42.295Z,parkinglocation,ok,85,40,800,150
+Feature,900000008_parkinglocation,Point,4.89508,52.37382,CE-P09 Bijenkorf,2018-05-17T09:30:42.295Z,parkinglocation,error,462,,453,
+Feature,902000085_parkinglocation,Point,4.9548,52.31477,ZO-P24 Bijlmerdreef,2018-05-17T09:30:42.295Z,parkinglocation,ok,300,0,515,75
+Feature,P27 Kalverstraat,Point,4.890751,52.367258,CE-P27 Kalverstraat,2018-05-17T09:30:42.295Z,parkinglocation,error,46,45,85,49
+Feature,P+R Zeeburg Touringcars,Point,4.959019,52.372163,CE-P16 P+R Zeeburg Touringcars,2018-05-17T09:30:42.295Z,parkinglocation,ok,5,0,20,0
+Feature,901000085_parkinglocation,Point,4.95268,52.31476,ZO-P22 Bijlmerdreef,2018-05-17T09:30:42.295Z,parkinglocation,ok,1,9,200,25
+Feature,900000012_parkinglocation,Point,4.91368,52.3681,CE-P13 Artis,2018-05-17T09:30:42.295Z,parkinglocation,error,437,,450,
+Feature,900000003_parkinglocation,Point,4.89722,52.37907,CE-P04 Amsterdam Centraal,2018-05-17T09:30:42.295Z,parkinglocation,error,307,306,357,310
+Feature,900000105_parkinglocation,Point,4.8609,52.3362,ZD-P02 VUmc (ACTA),2018-05-17T09:30:42.295Z,parkinglocation,ok,32,,453,
+Feature,900000122_parkinglocation,Point,4.89475,52.38482,IJDok,2018-05-17T09:30:42.295Z,parkinglocation,ok,96,32,254,100
+Feature,P26 The Bank,Point,4.898584,52.366058,CE-P26 The Bank,2018-05-17T09:30:42.295Z,parkinglocation,ok,25,33,220,110
+Feature,901000001_parkinglocation,Point,4.8536,52.3444,CE-P02 P+R Olympisch Stadion,2018-05-17T09:30:42.295Z,parkinglocation,ok,98,0,250,0
+Feature,900000079_parkinglocation,Point,4.93985,52.31086,ZO-P03 Mikado,2018-05-17T09:30:42.295Z,parkinglocation,ok,3,16,94,240
+Feature,900000090_parkinglocation,Point,4.88464,52.3849,CE-P17 Willemspoort,2018-05-17T09:30:42.295Z,parkinglocation,ok,40,18,79,34
+Feature,900000077_parkinglocation,Point,4.94105,52.31409,ZO-P01 P+R Arena,2018-05-17T09:30:42.295Z,parkinglocation,ok,1317,0,1500,0
+Feature,900000011_parkinglocation,Point,4.90857,52.36981,CE-P12 Markenhoven,2018-05-17T09:30:42.295Z,parkinglocation,error,100,20,100,49
+Feature,P Museumplein Touringcars,Point,4.882659,52.358753,CE-P07 Museumplein Touringcars,2018-05-17T09:30:42.295Z,parkinglocation,ok,21,4,24,4
+Feature,901000077_parkinglocation,Point,4.943,52.31409,ZO-P01 ArenA,2018-05-17T09:30:42.295Z,parkinglocation,ok,285,0,285,0
+Feature,900000123_parkinglocation,Point,4.93131,52.31542,ZO-P02 Arena terrein,2018-05-17T09:30:42.295Z,parkinglocation,ok,1999,0,2000,0
+Feature,900000085_parkinglocation,Point,4.95059,52.31413,ZO-P21 Bijlmerdreef,2018-05-17T09:30:42.295Z,parkinglocation,ok,0,46,103,140
+Feature,900000084_parkinglocation,Point,4.94731,52.31522,ZO-P18 HES/ROC,2018-05-17T09:30:42.295Z,parkinglocation,ok,13,26,95,75
+Feature,900000002_parkinglocation,Point,4.91639,52.37788,CE-P03 Piet Hein,2018-05-17T09:30:42.295Z,parkinglocation,ok,82,0,200,60
+Feature,900000006_parkinglocation,Point,4.87944,52.35726,CE-P07 Museumplein,2018-05-17T09:30:42.295Z,parkinglocation,ok,280,37,412,150
+Feature,900000005_parkinglocation,Point,4.88001,52.3619,CE-P06 Byzantium,2018-05-17T09:30:42.295Z,parkinglocation,ok,256,158,362,202
+Feature,900000081_parkinglocation,Point,4.93866,52.312,ZO-P05 Villa ArenA,2018-05-17T09:30:42.295Z,parkinglocation,error,40,199,251,424
+Feature,900000010_parkinglocation,Point,4.90437,52.36921,CE-P11 Waterlooplein,2018-05-17T09:30:42.295Z,parkinglocation,ok,42,8,140,45
+Feature,900000083_parkinglocation,Point,4.9413,52.3078,ZO-P10 Plaza ArenA,2018-05-17T09:30:42.295Z,parkinglocation,ok,100,161,344,683
+Feature,900000009_parkinglocation,Point,4.90041,52.36758,CE-P10 Stadhuis Muziektheater,2018-05-17T09:30:42.295Z,parkinglocation,ok,81,1,264,36
+Feature,901000117_parkinglocation,Point,4.96447,52.36988,CE-P16 P+R Zeeburg 2,2018-05-17T09:30:42.295Z,parkinglocation,ok,311,0,400,0
+Feature,900000086_parkinglocation,Point,4.95546,52.31765,ZO-P23 Bijlmerdreef,2018-05-17T09:30:42.295Z,parkinglocation,ok,258,20,380,20
+Feature,900000000_parkinglocation,Point,4.83811,52.39009,CE-P01 Sloterdijk,2018-05-17T09:30:42.295Z,parkinglocation,ok,0,0,196,0
+Feature,900000013_parkinglocation,Point,4.86627,52.38462,CE-P14 Westerpark,2018-05-17T09:30:42.295Z,parkinglocation,ok,180,186,320,280
+Feature,900000109_parkinglocation,Point,4.84537,52.37933,CE-P18 P+R Bos en Lommer,2018-05-17T09:30:42.295Z,parkinglocation,ok,89,0,250,0
+Feature,900000007_parkinglocation,Point,4.89459,52.37639,CE-P08 De Kolk,2018-05-17T09:30:42.295Z,parkinglocation,ok,113,10,299,75
+Feature,900000082_parkinglocation,Point,4.94441,52.3125,ZO-P06 Pathe/HMH,2018-05-17T09:30:42.295Z,parkinglocation,ok,244,4,390,5

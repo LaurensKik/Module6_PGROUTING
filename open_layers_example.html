@@ -1,0 +1,103 @@
+HOI BETTY OSCAR EN LAURENS HIEPHOOI
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Single Image WMS</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+    <style>
+      #map {
+      width: 60%;
+      height: 60%;
+    }
+  </style>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script>
+    var map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        new ol.layer.Image({
+          // extent: [3.31497114423, 50.803721015, 7.09205325687, 53.5104033474],
+          source: new ol.source.ImageWMS({
+            url: 'http://localhost:8080/geoserver/pgrouting/wms',
+            params: {'LAYERS': 'pgrouting:highway_net', 'FORMAT': 'image/png'},
+            ratio: 1,
+            serverType: 'geoserver',
+          })
+        })
+      ],
+      view: new ol.View({
+        projection: 'EPSG:4326',
+        center: [5.42244, 52.16207],
+        zoom: 7.8
+      }),
+      controls: ol.control.defaults({
+        attributionOptions: {
+          collapsible: false
+        }
+      })
+    });
+
+
+    var params = {
+      LAYERS: 'pgrouting:dijkstra',
+      FORMAT: 'image/png'
+    }
+
+
+    // The "start" and "destination" features.
+    var startPoint = new ol.Feature();
+    var destPoint = new ol.Feature();
+
+    // The vector layer used to display the "start" and "destination" features.
+    var vectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [startPoint, destPoint]
+      })
+    });
+    map.addLayer(vectorLayer);
+
+
+
+    // Register a map click listener.
+    map.on('click', function(event) {
+      if (startPoint.getGeometry() == null) {
+        // First click.
+        startPoint.setGeometry(new ol.geom.Point(event.coordinate));
+      } else if (destPoint.getGeometry() == null) {
+        // Second click.
+        destPoint.setGeometry(new ol.geom.Point(event.coordinate));
+        // Transform the coordinates from the map projection (EPSG:3857)
+        // to the server projection (EPSG:4326).
+        var startCoord = startPoint.getGeometry().getCoordinates();
+        var destCoord = destPoint.getGeometry().getCoordinates();
+        var viewparams = [
+          'x1:' + startCoord[0], 'y1:' + startCoord[1],
+          'x2:' + destCoord[0], 'y2:' + destCoord[1]
+        ];
+        params.viewparams = viewparams.join(';');
+        result = new ol.layer.Image({
+          source: new ol.source.ImageWMS({
+            url: 'http://localhost:8082/geoserver/pgrouting/wms',
+            params: params
+          })
+        });
+        map.addLayer(result);
+      }
+    });
+
+
+
+
+
+
+    </script>
+  </body>
+</html>

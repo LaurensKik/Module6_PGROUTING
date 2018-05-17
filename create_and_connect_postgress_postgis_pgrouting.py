@@ -16,6 +16,7 @@ import geoalchemy2 #Otherwise geom column is loaded wrong
 import getpass
 import os
 import webbrowser
+import pandas as pd
 
 # some interesting slides: http://www.postgis.us/presentations/postgis_install_guide_22.html#/11
 
@@ -132,12 +133,9 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
         print(x)
 
 
-<<<<<<< HEAD
 
-def create_a_star_route(new_tablename = 'laurens', road_network_table = 'osm_nl_2po_4pgr'):
-=======
+
 def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
->>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -155,6 +153,9 @@ def create_ped_car_cycle_view():
 
         Voor Laurens en Oscar: Een view is een soort selectie, maar dan zonder dingen dubbel op te slaan. Je voorkomt dus redundancy.
         '''
+
+    # View of highways
+    con.execute('CREATE VIEW highway_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost, geom_way, osm_name FROM osm_nl_2po_4pgr WHERE clazz in (11)')
 
     #View of roads for cars
     con.execute('CREATE VIEW vehicle_net AS SELECT id as id, source::integer, target::integer, cost * 3600 as cost, reverse_cost * 3600 as reverse_cost, geom_way, osm_name FROM osm_nl_2po_4pgr WHERE clazz in (11,12,13,14,15,16,21,22,31,32,41,42,43,51,63)')
@@ -186,6 +187,17 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
     string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
     os.system(string1)
 
+def create_parking_table():
+    locations_csv = pd.read_csv('D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\JSON_csv\parking_locations.csv')
+    # print(locations_csv.head())
+
+    locations_csv.to_sql('parking_locations', con, schema=None, if_exists='replace')
+
+
+    con.execute('commit')
+    # con.execute('')
+    con.execute("SELECT AddGeometryColumn('parking_locations','geom',4326,'POINT',2)")
+    con.execute("UPDATE parking_locations SET geom = ST_SetSRID(ST_MakePoint(long, lat), 4326)")
 
 # First create a database, connect to it, and add spatial extensions.
 
@@ -208,24 +220,17 @@ con, meta = connect_postgres_db('osm')
 # When de database is fully functioning it will test the low-level a star function.
 
 # test_a_star()
-create_a_star_route()
+# create_a_star_route()
 # create_ped_car_cycle_view()
-
+create_parking_table()
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
-<<<<<<< HEAD
-# add_sql_function()
-=======
-
 # add_sql_function()
 
 
 
 
 
-
-
->>>>>>> 1ee52b383f000b4ab883ea450f883df9b6a17974
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR

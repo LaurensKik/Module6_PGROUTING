@@ -56,9 +56,36 @@
   });
   map.addLayer(vectorLayer);
 
+
+// Register a map click listener.
+  map.on('click', function(event) {
+    if (startPoint.getGeometry() == null) {
+      // First click.
+      startPoint.setGeometry(new ol.geom.Point(event.coordinate));
+    } else if (destPoint.getGeometry() == null) {
+      // Second click.
+      destPoint.setGeometry(new ol.geom.Point(event.coordinate));
+      // Transform the coordinates from the map projection (EPSG:3857)
+      // to the server projection (EPSG:4326).
+      var startCoord = startPoint.getGeometry().getCoordinates();
+      var destCoord = destPoint.getGeometry().getCoordinates();
+      var viewparams = [
+        'x1:' + startCoord[0], 'y1:' + startCoord[1],
+        'x2:' + destCoord[0], 'y2:' + destCoord[1]
+      ];
+      params.viewparams = viewparams.join(';');
+      result = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: 'http://localhost:8082/geoserver/pgrouting/wms',
+          params: params
+        })
+      });
+      map.addLayer(result);
+    }
+  });
   // A transform function to convert coordinates from EPSG:3857
   // to EPSG:4326.
-  var transform = ol.proj.getTransform('EPSG:3857', 'EPSG:4326');
+  // var transform = ol.proj.getTransform('EPSG:3857', 'EPSG:4326');
 
 
   // var networkLayer = new.ol.layer.Image({
@@ -71,7 +98,7 @@
   // map.addLayer(networkLayer);
 
 
-  // Register a map click listener.
+  Register a map click listener.
   map.on('click', function(event) {
     if (startPoint.getGeometry() == null) {
       // First click.
@@ -94,7 +121,7 @@
       result = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: 'http://localhost:8080/geoserver/pgrouting/wms',
-          params: {'LAYERS': 'pgrouting:vehicle_net', 'FORMAT': 'image/png'},
+          params: {'LAYERS': 'pgrouting:pgroutingt', 'FORMAT': 'image/png'},
           serverType: 'geoserver'
         })
       });
