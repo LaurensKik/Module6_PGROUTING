@@ -136,12 +136,8 @@ def test_a_star(tablename = 'osm_nl_2po_4pgr'):
 
 
 
-<<<<<<< HEAD
-
-def create_a_star_route(new_tablename = 'route', road_network_table = 'osm_nl_2po_4pgr'):
-=======
 def create_a_star_route(new_tablename = 'route2', road_network_table = 'osm_nl_2po_4pgr'):
->>>>>>> 1f6e81b55a5255cdf38b16c06c26bc46544e84fa
+
     '''
     This functions creates a new database based on the standard osm2po column names.
     '''
@@ -193,7 +189,7 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
     string1 = r'psql -U postgres -d {} -a -f {}'.format(dbname, sql_location_file)
     os.system(string1)
 
-<<<<<<< HEAD
+
 def create_parking_table():
     locations_csv = pd.read_csv('D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\JSON_csv\parking_locations.csv')
     # print(locations_csv.head())
@@ -205,7 +201,7 @@ def create_parking_table():
     # con.execute('')
     con.execute("SELECT AddGeometryColumn('parking_locations','geom',4326,'POINT',2)")
     con.execute("UPDATE parking_locations SET geom = ST_SetSRID(ST_MakePoint(long, lat), 4326)")
-=======
+
 def get_parking_locations ():
 
     # gets a JSON file that contains all Amsterdam's parking garages and their properties. Next step is to extract the coordinates ("coordinates") and name ("Name") and to put these in a database (?)
@@ -226,7 +222,7 @@ def get_dynamic_park_data (url = r'http://opd.it-t.nl/Data/parkingdata/v1/amster
 
     response = requests.get(url = url) 
     response.json()
->>>>>>> 1f6e81b55a5255cdf38b16c06c26bc46544e84fa
+
 
 # First create a database, connect to it, and add spatial extensions.
 
