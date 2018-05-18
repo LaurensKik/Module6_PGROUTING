@@ -191,16 +191,27 @@ def add_sql_function(sql_location_file = r'D:\g_drive\Gima\Module_6\Module-6_gro
 
 
 def create_parking_table():
-    locations_csv = pd.read_csv('D:\g_drive\Gima\Module_6\Module-6_groupwork\Module6_PGROUTING\JSON_csv\parking_locations.csv')
+    # locations_csv = pd.read_json('http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/ParkingLocation.json')
     # print(locations_csv.head())
 
-    locations_csv.to_sql('parking_locations', con, schema=None, if_exists='replace')
+    from urllib2 import Request, urlopen
+    import json
+    from pandas.io.json import json_normalize
+
+    
+    request=Request('http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/ParkingLocation.json')
+    response = urlopen(request)
+    park_locs = response.read()
+    data = json.loads(park_locs)
+    results = pd.DataFrame(data)
+    print(results.head())
+    # locations_csv.to_sql('parking_locations', con, schema=None, if_exists='replace')
 
 
-    con.execute('commit')
-    # con.execute('')
-    con.execute("SELECT AddGeometryColumn('parking_locations','geom',4326,'POINT',2)")
-    con.execute("UPDATE parking_locations SET geom = ST_SetSRID(ST_MakePoint(long, lat), 4326)")
+    # con.execute('commit')
+    # # con.execute('')
+    # con.execute("SELECT AddGeometryColumn('parking_locations','geom',4326,'POINT',2)")
+    # con.execute("UPDATE parking_locations SET geom = ST_SetSRID(ST_MakePoint(long, lat), 4326)")
 
 def get_parking_locations ():
 
@@ -227,48 +238,41 @@ def get_dynamic_park_data (url = r'http://opd.it-t.nl/Data/parkingdata/v1/amster
 # First create a database, connect to it, and add spatial extensions.
 
 # create_postgres_db('osm')
-# con, meta = connect_postgres_db('osm')
+con, meta = connect_postgres_db('osm')
 # create_postgis_pgrouting()
 
 
 # Create a SQL dump containing topology of and osm.pbf file.
-
 # osm2po_roads()
 
 
 ## Quit the commandline and restart from this function onwards. This will import the sql dump create a spatial index, create separate views for several travel modes.
-
 # import_osm2po()
 # create_spatial_index()
 
 
 ## When de database is fully functioning it will test the low-level a star function.
-
 # test_a_star()
 # create_a_star_route()
 # create_ped_car_cycle_view()
-<<<<<<< HEAD
 create_parking_table()
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 # add_sql_function()
 
 
-=======
 
 ## requesting JSON data about parking locations & dynamic parking availability. VERY MUCH UNDER CONSTRUCTION
-
 # get_parking_locations()
 # get_dynamic_park_data()
->>>>>>> 1f6e81b55a5255cdf38b16c06c26bc46544e84fa
+
 
 ## Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 
-<<<<<<< HEAD
 
-=======
+
 # add_sql_function()
->>>>>>> 1f6e81b55a5255cdf38b16c06c26bc46544e84fa
+
 
 
 ###BELOW DEPRECATED FUNCTIONS ARE SHOWN, NOT IMPORTANT @LAURENS, OSCAR
