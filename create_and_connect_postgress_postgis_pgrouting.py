@@ -15,7 +15,7 @@ import geoalchemy2 #Otherwise geom column is loaded wrong
 import getpass
 import os
 import webbrowser
-import pandas as pd
+# import pandas as pd
 
 import requests #This package is for accessing webpages over URLs, not sure if we need it, still testing sth.
 import json
@@ -234,6 +234,25 @@ def get_dynamic_park_data (url = r'http://opd.it-t.nl/Data/parkingdata/v1/amster
     response = requests.get(url = url) 
     response.json()
 
+def parking_to_psql ():
+    #these statements retrieve json format information about parking data
+    r = requests.get('http://opd.it-t.nl/Data/parkingdata/v1/amsterdam/dynamic/900000000_parkinglocation.json')
+    park_json = r.json()
+    print(park_json)
+    string_park = str(park_json)
+
+    #this part creates a table in postgresql that takes json format information
+    string = r'CREATE TABLE parkeerbeschikking (ID NOT NULL PRIMARY KEY, parkeerinfo json NOT NULL)'
+    # dyn_park = con.execute(string)
+
+    #this part tries to populate the table with the json data
+    string = r"WITH json_array AS (SELECT 1 AS ID, json_array_elements('[{}]'::json) AS parkeerinfo)".format(park_json)
+    hope_so = con.execute(string)
+
+    string = r'INSERT INTO parkeerbeschikking (ID, parkeerinfo)'
+    now_or_never = con.execute(string)
+
+
 
 # First create a database, connect to it, and add spatial extensions.
 
@@ -255,7 +274,8 @@ con, meta = connect_postgres_db('osm')
 # test_a_star()
 # create_a_star_route()
 # create_ped_car_cycle_view()
-create_parking_table()
+# create_parking_table()
+
 
 # Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
 # add_sql_function()
@@ -265,6 +285,7 @@ create_parking_table()
 ## requesting JSON data about parking locations & dynamic parking availability. VERY MUCH UNDER CONSTRUCTION
 # get_parking_locations()
 # get_dynamic_park_data()
+parking_to_psql()
 
 
 ## Implement a self made sql function for geoserver, e.g, dijkstra from coordinates. Currently working on a-star.
