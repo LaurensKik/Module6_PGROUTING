@@ -1,0 +1,14 @@
+SELECT 
+Id, 
+(
+   6371 *
+   acos(cos(radians(x2)) * 
+   cos(radians(x2)) * 
+   cos(radians(y2) - 
+   radians(y2)) + 
+   sin(radians(x2)) * 
+   sin(radians(x2)))
+) AS distance 
+FROM ParkingLocation 
+HAVING distance < 10 
+ORDER BY distance LIMIT 0, 1;
